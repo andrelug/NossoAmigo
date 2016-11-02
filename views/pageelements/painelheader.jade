@@ -1,0 +1,21 @@
+div.nav-container
+    nav.top-bar
+        div.container
+            div.row.utility-menu
+                div.col-sm-12
+                    div.utility-inner.clearfix
+                        span.alt-font
+                            i.icon.icon_mail 
+                            | &nbsp;contato@nossoamigo.org
+
+                        div.pull-right
+                            if (!locals.user)
+                                a.btn.btn-primary.login-button.btn-xs(href="/") Página
+                                a.btn.btn-primary.btn-filled.btn-xs(href="/preferencias") Preferências
+                            else
+                                a.btn.btn-primary.login-button.btn-xs(href="/painel") painel
+                                a.btn.btn-primary.btn-filled.btn-xs(href="/logout") sair
+
+
+            div.mobile-toggle
+                i.icon.icon_menu

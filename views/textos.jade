@@ -1,0 +1,43 @@
+extends partials/layout
+
+block content
+
+    include pageelements/painelHeader
+
+    div.main-container
+        section.blog-masonry.bg-muted
+            div.container
+                div.row
+                    div.blog-masonry-container
+                        for infos in info
+                            div.col-md-4.col-sm-6.blog-masonry-item.artigos
+                                div.item-inner
+                                    div.post-title
+                                        a(href="/textos/#{infos.slug}")
+                                            h2 #{infos.title}
+                                        - infos.short = infos.short.split(' ').slice(0, 20).join(' ').replace(/(<([^>]+)>)/ig, '');
+                                        
+                                        p #{infos.short}...
+
+                                        div.post-meta
+                                            span.sub.alt-font Encontro em #{infos.date}
+                                            span.sub.alt-font Leia em #{infos.subtitle} minutos
+                                        a.link-text(href="/textos/#{infos.slug}") Leia Mais
+                                //        
+                                    div.readStatus(style="background-color:#0091B1;padding: 0px 10px;text-align:center;")
+                                        div.row
+                                            div.col-xs-4
+                                                p(style="margin-bottom:0px;color:white;display:block;margin-top: 5px;")
+                                                    i.fa.fa-check(style="color:#fff;margin-right:5px;")
+                                                    | LIDO
+                                            div.col-xs-4
+                                                p(style="margin-bottom:0px;color:white;display:block;margin-top: 5px;")
+                                                    i.icon.icon_chat(style="color:#fff;margin-right:5px;")
+                                                    | 20 
+                                            div.col-xs-4
+                                                p(style="margin-bottom:0px;color:white;display:block;margin-top: 5px;")
+                                                    i.icon.icon-linegraph(style="color:#fff;margin-right:5px;")
+                                                    | 200
+
+
+    include pageelements/footer	

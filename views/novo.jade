@@ -1,0 +1,59 @@
+extends partials/create
+block content
+    div.main-container
+        section.article-single
+            div.container
+                div.row
+                    article
+                        textarea#createTitle(name="content", placeholder="Ótimo Título")
+                            if(edit == true)
+                                !{info.title}
+                        textarea#createContent(name="content", placeholder="Ótimo Texto")
+                            if(edit == true)
+                                !{info.text}
+                div.row
+                    div.col-md-8.col-md-offset-2(style="margin-top:15px;")
+                        form.form-artigo(action="/novoArtigo", method="POST")
+                            div.inputs-wrapper
+                                if(edit == false)
+                                    label(style="margin:2px 0 0 5px;") Participantes (separados por ",")
+                                    select#participantesSelect(multiple, name="participantes", placeholder="Participantes")
+                                        for participante in users
+                                            option(value="#{participante.id}") #{participante.name.first} #{participante.name.last}
+                                    label(style="margin:2px 0 0 5px;") Lugar do encontro
+                                    input(type="text", name="place", placeholder="Lugar")
+                                    label(style="margin:2px 0 0 5px;") Tempo estimado de leitura
+                                    input#tempoLeitura(type="text", name="subtitle", placeholder="Tempo de leitura", style="border-bottom:none;")
+                                    label(style="margin:2px 0 0 5px;") Data do encontro
+                                    input#dataEncontro(type="text", name="dataEncontro", placeholder="Data", style="border-bottom:none;")
+                                    
+                                else
+                                    label(style="margin:2px 0 0 5px;") Participantes (separados por ",")
+                                    select#participantesSelect(multiple, name="participantes", placeholder="Participantes")
+                                        - var i = userId.length;
+                                        
+                                        if info.participantes
+                                            - while (i--)
+                                                for escolhido in info.participantes
+                                                    if userId[i] == escolhido
+                                                        option(selected="selected", value="#{userId[i]}") #{userName[i]}
+                                                        - userId.splice(i, 1)
+                                                        - userName.splice(i, 1)
+                                                    
+                                        for pessoa, j in userId
+                                            option(value="#{pessoa}") #{userName[j]}
+
+                                    label(style="margin:2px 0 0 5px;") Lugar do encontro
+                                    input(type="text", name="place", placeholder="Lugar", value="#{info.place}")
+                                    label(style="margin:2px 0 0 5px;") Tempo estimado de leitura
+                                    input#tempoLeitura(type="text", name="subtitle", placeholder="Tempo de leitura", style="border-bottom:none;" value="#{info.subtitle}")
+                                    label(style="margin:2px 0 0 5px;") Data do encontro
+                                    input#dataEncontro(type="text", name="dataEncontro", placeholder="Data", style="border-bottom:none;", value="#{info.date}")
+                                input(type="hidden", name="type", value="artigo")
+                                input(type="hidden", name="title")
+                                input(type="hidden", name="id", value="#{id}")
+                            input(type="submit", value="Enviar")
+
+                        a.btn.btn-danger.btn-filled.deletarArtigo(href="#", style="background-color: #E74C3C", data-id="#{id}") Deletar
+                        h3#slugErr(style="display: none;") Aparentemente esse título que escolheu é repetido. Tente outro
+    include pageelements/footer

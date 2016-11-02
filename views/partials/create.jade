@@ -1,0 +1,120 @@
+doctype html
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+html.no-js(lang="pt_BR") <!--<![endif]-->
+    head
+        include head
+        
+    body
+        script.
+            window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '1519238171626381',
+                xfbml      : true,
+                version    : 'v2.1'
+            });
+            };
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        block content
+        script.
+            var thisUser = "#{user.name.loginName}";
+            var thisArticle = "#{id}";
+        include footer
+
+        if(edit == true)
+            div#editCheck(style="visibility: hidden;") check
+        else
+            div#editCheck(style="visibility: hidden;") not
+        script.
+            $(function () {
+                // BASE FUNCTIONS
+                function parseDate(str) {
+                    var mdy = str.split('/');
+                    return new Date(mdy[2], mdy[1]-1, mdy[0]);
+                }
+                function daydiff(first, second) {
+                    return Math.round((second-first)/(1000*60*60*24)) + 1;
+                }
+                var docTitle = "#{info.title}";
+
+                $('#createTitle').redactor({
+                    lang: 'pt_br',
+                    toolbar: false,
+                    minHeight: 97,
+                    autosave: '/novoTitulo/' + thisArticle,
+                    autosaveInterval: 5,
+                    callbacks: {
+                        autosave: function (name, json) {
+                            docTitle = json;
+                        }
+                    }
+                });
+                $('#createContent').redactor({
+                    lang: 'pt_br',
+                    plugins: ['counter'],
+                    callbacks: {
+                            counter: function(data){
+                            $('#tempoLeitura').val(Math.round(data.words / 150));
+                        },
+                        imageUpload: function(image, json) {
+                             $(image).attr('id', json.id);
+                        }
+                    },
+                    buttons: ['format', 'bold', 'italic', 'lists', 'image', 'file', 'link', 'horizontalrule'],
+                    placeholder: 'Texto sensacional',
+                    minHeight: 300,
+                    imageUpload: '/artigoImage',
+                    convertImageLinks: true,
+                    convertVideoLinks: true,
+                    autosave: '/novoArtigo/' + thisArticle,
+                    autosaveInterval: 5
+                });
+
+                $('.form-artigo').on('submit', function (e) {
+                    e.preventDefault();
+                    var thisone = $(this);
+                    $('input[name=title]').attr('value', docTitle);
+
+                    editCheck = $('#editCheck').html();
+                    var editChecked;
+                    if (editCheck == 'check') {
+                        editChecked = true;
+                    } else {
+                        editChecked = false;
+                    }
+
+                    $.ajax({
+                        url: '/titleCheck/' + thisArticle,
+                        type: "get",
+                        data: { title: docTitle, check: editChecked }
+                    }).done(function (data) {
+                        if (data == 'yes') {
+                            $.ajax({
+                                url: "/novoArtigo",
+                                data: thisone.serialize(),
+                                type: "POST"
+                            }).done(function (url) {
+                                window.location.replace("http://localhost:3000" + url);
+                            });
+                        } else {
+                            $('#slugErr').slideDown().delay(2000).slideUp();
+                        }
+                    });
+                });
+                
+                $('#dataEncontro').datepicker({
+                    format: "dd/mm/yyyy",
+                    language: "pt-BR"
+                });
+
+
+
+            });

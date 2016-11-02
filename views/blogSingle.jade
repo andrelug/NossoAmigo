@@ -1,0 +1,44 @@
+extends partials/articleLayout
+
+block content
+
+    include pageelements/painelHeader
+    div.main-container
+        header.title
+
+            div.container.align-bottom
+                div.row
+                    div.col-xs-12
+                        h1.text-white #{info.title}
+                            if(locals.user && user.status == 'admin')
+                                a.btn.btn-danger.btn-filled.deletarArtigo(href="#", style="background-color: #E74C3C;margin-left:15px;", data-id="#{info.id}") Deletar
+                                a.btn.btn-primary.btn-filled(href="/editar/#{info.id}") Editar
+                        span.sub.alt-font.text-white #{info.date}
+                            br
+                            | Leia em #{info.subtitle} minutos
+
+    
+        section.article-single
+            div.container
+                div.row
+                    div.col-sm-10.col-sm-offset-1
+                        div.article-body
+                            !{info.text}
+
+                            div.fb-like(data-href="", data-share="true", data-width="450", data-show-faces="true")
+
+                div.row
+                    div.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
+                        div.author-details
+                            h5
+                            for part in participantes
+                                | #{part.name.first} #{part.name.last}, 
+                            p #{info.place}
+
+                div.row
+                    div.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2
+                        div.fb-comments(data-href="", data-colorscheme="light", data-numposts="10", data-width="100%")
+
+
+
+    include pageelements/footer
