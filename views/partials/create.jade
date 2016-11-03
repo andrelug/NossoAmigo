@@ -31,8 +31,11 @@ html.no-js(lang="pt_BR") <!--<![endif]-->
 
         if(edit == true)
             div#editCheck(style="visibility: hidden;") check
+            var docTitle = "#{info.title}";
         else
             div#editCheck(style="visibility: hidden;") not
+            var docTitle;
+            
         script.
             $(function () {
                 // BASE FUNCTIONS
@@ -43,7 +46,6 @@ html.no-js(lang="pt_BR") <!--<![endif]-->
                 function daydiff(first, second) {
                     return Math.round((second-first)/(1000*60*60*24)) + 1;
                 }
-                var docTitle = "#{info.title}";
 
                 $('#createTitle').redactor({
                     lang: 'pt_br',
