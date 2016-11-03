@@ -33,9 +33,9 @@ module.exports = function (app, passport, mongoose) {
     .get(function (req, res, next) {
         var user = req.user;
         if (!user) {
-            res.render('index', { title: 'Igluonline - Fazemos ótimos WebSites' });
+            res.render('index', { title: 'Nosso amigo - Fazemos ótimos WebSites' });
         } else {
-            res.render('index', { title: 'Igluonline - Fazemos ótimos WebSites', user: user });
+            res.render('index', { title: 'Nosso amigo - Fazemos ótimos WebSites', user: user });
         }
 
     });
@@ -44,7 +44,7 @@ module.exports = function (app, passport, mongoose) {
         var user = req.user;
 
         if (!user) {
-            res.render('login', { title: "Igluonline Login" });
+            res.render('login', { title: "Nosso amigo Login" });
         } else {
             res.redirect('/painel');
         }
@@ -55,7 +55,7 @@ module.exports = function (app, passport, mongoose) {
         if (!user) {
             res.redirect('/entrar')
         } else {
-            res.render('painel', { title: "Painel Igluonline", user: user});
+            res.render('painel', { title: "Painel Nosso amigo", user: user});
         }
     });
 
@@ -86,7 +86,7 @@ module.exports = function (app, passport, mongoose) {
         if (!user || user.status != 'admin') {
             res.redirect('/');
         } else {
-            res.render('profile', { title: "Igluonline - Editar Perfil", user: user })
+            res.render('profile', { title: "Nosso amigo - Editar Perfil", user: user })
         }
     });
 
@@ -421,7 +421,7 @@ module.exports = function (app, passport, mongoose) {
     app.get('/registrar', function (req, res) {
         var user = req.user;
         if (!user) {
-            res.render("signup", { title: "Igluonline - Registrar", message: req.flash('signupMessage') });
+            res.render("signup", { title: "Nosso amigo - Registrar", message: req.flash('signupMessage') });
         } else {
             res.redirect("/");
         }

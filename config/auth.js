@@ -28,8 +28,8 @@ if('development' == app.get('env')) {
     module.exports = {
 
         'facebookAuth' : {
-            'clientID' 		: '253873004991221', // your App ID
-            'clientSecret' 	: 'c7fe9bd5f0188bb89e104f82417ae34a', // your App Secret
+            'clientID' 		: '1662382147405788', // your App ID
+            'clientSecret' 	: '67dc52d5d0c9a6e0b2afbd3c7318277b', // your App Secret
             'callbackURL' 	: 'http://nossoamigo.org/auth/facebook/callback'
         },
 
